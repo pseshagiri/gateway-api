@@ -1,6 +1,6 @@
 pipeline{
     environment{
-        GITHUBURL = 'http://'
+        GITHUBURL = 'https://github.com/pseshagiri/gateway-api.git'
     }
     agent any
     SCM {
@@ -8,14 +8,21 @@ pipeline{
     }
     stages{
         stage('GIT Checkout'){
-            GIT branch:'main',credentialsId:'GitId',url: ${GITHUBURL}
+            steps{
+              git branch: 'routes', credentialsId: 'GitUserNamePassword', url: ${GITHUBURL}
+            }
         }
         stage('clean'){
-            gradle clean
+            steps{
+             ./gradle clean
+            }
         }
         stage('build'){
-            gradle build
+            steps{
+             ./gradle build
+            }
         }
+        /*
         stage('docker server connect '){
            sh xyz.aws.com
         }
@@ -29,8 +36,9 @@ pipeline{
         stage('docker server connect '){
             sh exit
          }
+         */
     }
-    post{
+   /*post{
 
-    }
+    }*/
 }
