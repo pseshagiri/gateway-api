@@ -1,0 +1,122 @@
+server:
+ port: 9000
+
+logging:
+ pattern:
+  level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+   
+
+eureka:
+ client:
+  instance:
+   preferIpAddress: true
+   hostname: localhost
+  serviceUri:
+   defaultZone: http://localhost:8761/eureka
+   registerWithEureka: true
+   fetchRegistry: true
+
+management:
+ endpoints:
+  web:
+   exposure:
+    include: "*"
+ endpoint:
+  health:
+   probes:
+    enabled: true
+   show-details: always
+   show-components: always
+  metrics:
+   tags:
+    application: ${spring.application.name}
+   distribution:
+    percentiles-histogram:
+     all: true
+     http.server.requests: true
+  tracing:
+   sampling:
+    probability: 1.0
+  prometheus:
+   metrics:
+    export:
+     step: 10s
+  info:
+   env:
+    enabled: true
+   java:
+    enabled: true
+   os:
+    enabled: true
+
+
+spring:
+ application:
+  name: zuul-api
+ cloud:
+  gateway:
+   default-filters:
+    - name: RequestRateLimiter 
+      args: 
+       redis-rate-limiter.replenishRate: 10
+       redis-rate-limiter.requestedToken: 1
+       redis-rate-limiter.burstCapacity: 20
+   routes:      
+    - id: products
+      uri: http://localhost:9002
+      predicates:
+       - Path=/products/**      
+      filters:
+       - AddRequestHeader=XXX-Tenant=xyz,messi
+       - AddRequestHeader=XXX-seshagiri=messi,mbappa
+       - name: CircuitBreaker
+         args:
+          name: productService
+          fallbackUri: forward:/products-fallback
+       - name: Retry
+         args:
+          retries: 3                  
+          backoff:
+           firstBackoff: 5ms
+           maxBackoff: 50ms
+    - id: orders
+      uri: http://localhost:9001
+      predicates:
+       - Path=/orders/**      
+      filter:
+       - AddRequestHeader=XXX-Tenant=xyz,messi
+       - AddRequestHeader=XXX-seshagiri=messi,mbappa
+       - name: CircuitBreaker
+         args: 
+          name: orderService
+          fallbackUri: forward:/orders-fallback
+       - name: Retry
+         args:
+          retries: 3                
+          backoff:
+           firstBackoff: 5ms
+           maxBackoff: 50ms
+    
+resilience4j:
+  circuitbreaker:
+    instances:
+      orderService:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 1000
+        registerHealthIndicator: true
+      productService:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 1000
+        registerHealthIndicator: true
+  timeLimiter:
+    instances: 
+      orderService: 
+        timeOutDuration: 50ms
+      productService:
+        timeOutDuration: 50ms  
+
