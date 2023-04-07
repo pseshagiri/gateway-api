@@ -1,7 +1,6 @@
 pipeline{
     environment{
-        GITHUBURL = 'https://github.com/pseshagiri/gateway-api.git'
-        GITHUBURL = 'https://github.com/pseshagiri/gateway-api.git'
+        GITHUBURL = 'https://github.com/pseshagiri/gateway-api.git'        
     }
     agent any
     stages{
