@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage('GIT Checkout'){
             steps{
-              git branch: 'main', credentialsId: 'githubUserDetails1', url: 'https://github.com/pseshagiri/gateway-api.git'
+              git branch: 'routes', credentialsId: 'githubUserDetails1', url: 'https://github.com/pseshagiri/gateway-api.git'
             }
         }
         stage('clean build '){
