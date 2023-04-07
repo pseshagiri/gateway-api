@@ -9,7 +9,7 @@ pipeline{
               git branch: 'routes', credentialsId: 'githubUserDetails1', url: 'https://github.com/pseshagiri/gateway-api.git'
             }           
         }
-        stage('clean build '){
+        stage('clean build'){
             steps{
               sh 'gradle clean build'
             }
@@ -21,4 +21,4 @@ pipeline{
         }
     }
 }
-}
+
