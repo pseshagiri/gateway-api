@@ -7,18 +7,15 @@ pipeline{
         stage('GIT Checkout'){
             steps{
               git branch: 'routes', credentialsId: 'githubUserDetails1', url: 'https://github.com/pseshagiri/gateway-api.git'
-            }
-            steps{
-              git branch: 'routes', credentialsId: 'githubUserDetails1', url: 'https://github.com/pseshagiri/gateway-api.git'
-            }
+            }           
         }
         stage('clean build '){
             steps{
-              cmd 'gradle clean build'
+              sh 'gradle clean build'
             }
         stage('clean build '){
             steps{
-              cmd 'gradle clean build'
+              sh 'gradle clean build'
             }
         }
     }
