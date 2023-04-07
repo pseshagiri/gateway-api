@@ -25,8 +25,7 @@ pipeline{
 
         /*
     }
-
-        /*
+        
         stage('docker server connect '){
            sh xyz.aws.com
         }
