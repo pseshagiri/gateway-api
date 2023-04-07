@@ -16,7 +16,7 @@ pipeline{
         }   
         stage('clean build '){
             steps{
-              sh 'gradlew bootJar'
+              sh 'gradle -Dorg.gradle.native=false clean build'
             }
         }
     }
