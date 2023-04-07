@@ -19,27 +19,5 @@ pipeline{
             }
         }
     }
-
-        /*
-    }
-        
-        stage('docker server connect '){
-           sh xyz.aws.com
-        }
-        stage('Docker push'){
-            docker push  <githubId>/<repo_name>:<tag_name>
-        }
-        
-        stage('Docker run'){
-            docker run --name tag_name -p 9000:9000 -d -t <githubId>/<repo_name>:<tag_name>
-        }
-        stage('docker server connect '){
-            sh exit
-         }
-         */
-   // }
-   /*post{
-
-    }
-    }*/
+}
 }
