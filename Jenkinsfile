@@ -1,10 +1,14 @@
 pipeline{
     environment{
         GITHUBURL = 'https://github.com/pseshagiri/gateway-api.git'
+        GITHUBURL = 'https://github.com/pseshagiri/gateway-api.git'
     }
     agent any
     stages{
         stage('GIT Checkout'){
+            steps{
+              git branch: 'routes', credentialsId: 'githubUserDetails1', url: 'https://github.com/pseshagiri/gateway-api.git'
+            }
             steps{
               git branch: 'routes', credentialsId: 'githubUserDetails1', url: 'https://github.com/pseshagiri/gateway-api.git'
             }
@@ -13,7 +17,14 @@ pipeline{
             steps{
               cmd 'gradle clean build'
             }
+        stage('clean build '){
+            steps{
+              cmd 'gradle clean build'
+            }
         }
+    }
+
+        /*
     }
 
         /*
@@ -34,5 +45,6 @@ pipeline{
    // }
    /*post{
 
+    }
     }*/
 }
