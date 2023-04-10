@@ -1,11 +1,7 @@
 pipeline{
     tools{
         gradle 'gradlelocal'
-    }
-
-    environment{
-        registry      
-    }
+    }   
     agent any
     stages{
         stage('GIT Checkout'){
