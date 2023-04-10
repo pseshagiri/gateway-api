@@ -1,6 +1,10 @@
 pipeline{
+    tool{
+        gradle 'gradlelocal'
+    }
+
     environment{
-        GITHUBURL = 'https://github.com/pseshagiri/gateway-api.git'        
+        registry      
     }
     agent any
     stages{
@@ -13,12 +17,6 @@ pipeline{
             steps{
               sh 'gradle clean build'
             }
-        }   
-        stage('clean build '){
-            steps{
-              sh 'gradle -Dorg.gradle.native=false clean build'
-            }
         }
     }
 }
-
